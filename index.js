@@ -201,7 +201,7 @@ module.exports = (options = {}) => {
 	});
 };
 
-module.exports.download = (window_, url, options) => new Promise((resolve, reject) => {
+module.exports.download = (window_, url,  options) => new Promise((resolve, reject) => {
 	options = {
 		...options,
 		unregisterWhenDone: true
@@ -215,7 +215,14 @@ module.exports.download = (window_, url, options) => new Promise((resolve, rejec
 		}
 	});
 
-	window_.webContents.downloadURL(url);
+	if(options.headers) {
+		window_.webContents.downloadURL(url, {
+			headers: options.headers
+		});
+	} else {
+		window_.webContents.downloadURL(url);
+	}
+
 });
 
 module.exports.CancelError = CancelError;
